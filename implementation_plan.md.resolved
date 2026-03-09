@@ -1,0 +1,200 @@
+# AI Matchmaking Platform — TechTitans
+
+A microservices-based collaborative sandbox with AI facilitation and a Web3 trust layer. This MVP demonstrates expert matchmaking via vector similarity, real-time AI-translated chat, a brainstorm facilitator agent, and blockchain contribution logging.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **API Keys needed before running:**
+> - `GEMINI_API_KEY` — Used by the Python AI service for translation + facilitation (Google Gemini via LangChain). Free tier available at [aistudio.google.com](https://aistudio.google.com).
+> - `PINECONE_API_KEY` + `PINECONE_ENV` — For vector-based expert matching. Free tier at [pinecone.io](https://pinecone.io). **Optional**: local fallback (cosine similarity with sentence-transformers) will be used if not configured.
+> - Blockchain (Polygon Mumbai) requires a testnet wallet private key. **Optional for MVP demo** — a local Hardhat node is used by default.
+> - MySQL must be installed and running locally.
+
+> [!WARNING]
+> The Python AI service requires Python 3.9+ and pip. The Node.js backend requires Node 18+. The blockchain service requires Node 18+ with Hardhat.
+
+---
+
+## Proposed Changes
+
+### Project Root: `c:\Foundathon\techtitans\`
+
+```
+techtitans/
+├── frontend/          # Next.js 14 app
+├── backend/           # Node.js + Express + Socket.io
+├── ai-service/        # Python + FastAPI + LangChain
+├── blockchain/        # Hardhat + Solidity
+├── database/          # MySQL schema SQL file
+└── README.md
+```
+
+---
+
+### Database Layer
+
+#### [NEW] `database/schema.sql`
+- Creates `users`, `projects`, `messages`, `contributions` tables
+- Stores user domain/skills, projects, chat messages with translated versions, and blockchain hashes
+
+---
+
+### Blockchain Service
+
+#### [NEW] `blockchain/contracts/CollaborationLog.sol`
+- Solidity smart contract
+- Stores: `projectId`, `summaryHash`, `timestamp`, `contributors[]`
+- Event emitted on each log
+
+#### [NEW] `blockchain/hardhat.config.js`
+- Configured for local Hardhat node + Polygon Mumbai testnet
+
+#### [NEW] `blockchain/scripts/deploy.js`
+- Deploy script
+
+#### [NEW] `blockchain/package.json`
+
+---
+
+### AI Service (Python + FastAPI)
+
+#### [NEW] `ai-service/main.py`
+- FastAPI app with endpoints:
+  - `POST /translate` — translates jargon using Gemini LLM
+  - `POST /match` — matches users via embedding similarity (sentence-transformers + optionally Pinecone)
+  - `POST /facilitate` — suggests brainstorming prompts based on conversation
+  - `POST /summarize` — generates chat summary
+  - `GET /health`
+
+#### [NEW] `ai-service/agents/translator.py`
+- LangChain chain: detects domain → rewrites message in plain language
+
+#### [NEW] `ai-service/agents/facilitator.py`
+- Given conversation history → suggests next question
+
+#### [NEW] `ai-service/agents/matchmaker.py`
+- Encodes user skills + problem statement → cosine similarity → top matches
+
+#### [NEW] `ai-service/requirements.txt`
+
+#### [NEW] `ai-service/.env.example`
+
+---
+
+### Backend (Node.js + Express + Socket.io)
+
+#### [NEW] `backend/server.js`
+- Express app + Socket.io WebSocket server
+- Routes: `/api/auth`, `/api/users`, `/api/projects`, `/api/messages`, `/api/blockchain`
+- Socket events: `join_room`, `send_message`, `receive_message`, `translate_message`, `facilitate`, `user_typing`
+
+#### [NEW] `backend/routes/auth.js`
+- Register/login with bcrypt + JWT
+
+#### [NEW] `backend/routes/users.js`
+- Get/update profile, get matches
+
+#### [NEW] `backend/routes/projects.js`
+- Create project/room, list rooms
+
+#### [NEW] `backend/routes/messages.js`
+- Get message history for a project
+
+#### [NEW] `backend/routes/blockchain.js`
+- Call AI service to summarize, then log to smart contract
+
+#### [NEW] `backend/middleware/auth.js`
+- JWT verification middleware
+
+#### [NEW] `backend/config/db.js`
+- MySQL2 pool setup
+
+#### [NEW] `backend/package.json`
+
+#### [NEW] `backend/.env.example`
+
+---
+
+### Frontend (Next.js 14)
+
+#### [NEW] `frontend/app/page.tsx`
+- Landing page: animated hero, feature cards, CTA
+
+#### [NEW] `frontend/app/auth/page.tsx`
+- Combined login/register page
+
+#### [NEW] `frontend/app/profile/page.tsx`
+- Setup domain, skills, problem statement
+
+#### [NEW] `frontend/app/dashboard/page.tsx`
+- Show active projects + matched collaborators
+
+#### [NEW] `frontend/app/match/page.tsx`
+- AI matchmaking explorer: enter problem → get matched experts
+
+#### [NEW] `frontend/app/room/[id]/page.tsx`
+- Real-time collaboration room with:
+  - Original + translated message side-by-side
+  - Facilitator suggestion panel
+  - Participant list
+  - "End Session & Log to Blockchain" button
+
+#### [NEW] `frontend/app/blockchain/[id]/page.tsx`
+- View blockchain proof for a collaboration session
+
+#### [NEW] `frontend/lib/socket.ts`
+- Socket.io client singleton
+
+#### [NEW] `frontend/lib/api.ts`
+- Axios instance + API helpers
+
+#### [NEW] `frontend/components/` (MessageBubble, TranslationPanel, FacilitatorPanel, Navbar, etc.)
+
+#### [NEW] `frontend/package.json`
+
+#### [NEW] `frontend/.env.example`
+
+---
+
+### Root
+
+#### [NEW] `README.md`
+- Full setup guide covering all 4 services + environment variables
+
+---
+
+## Verification Plan
+
+### Automated Tests
+No existing test suite. The following automated integration checks will be done:
+
+1. **AI Service health check:**
+   ```bash
+   cd ai-service && uvicorn main:app --port 8001
+   curl http://localhost:8001/health
+   ```
+
+2. **Backend health check:**
+   ```bash
+   cd backend && node server.js
+   curl http://localhost:5000/api/health
+   ```
+
+3. **Translation endpoint test:**
+   ```bash
+   curl -X POST http://localhost:8001/translate \
+     -H "Content-Type: application/json" \
+     -d '{"message": "Use CNN-based image segmentation", "sender_domain": "AI", "receiver_domain": "Medical"}'
+   ```
+
+### Manual Verification (Browser Demo Flow)
+1. Start all 4 services (see README instructions)
+2. Open `http://localhost:3000` → should see animated landing page
+3. Click **Get Started** → register as User A (`domain: AI Engineering`)
+4. Register User B in another tab (`domain: Medical Research`)
+5. Both users go to **Match** → enter overlapping problem statement → should see each other matched
+6. User A creates a room → User B joins
+7. User A sends `"We should apply a convolutional neural network"` → User B should see translated version
+8. Wait 30 seconds of silence → Facilitator agent should suggest a question
+9. Click **End Session & Log to Blockchain** → tx hash should appear on the blockchain page

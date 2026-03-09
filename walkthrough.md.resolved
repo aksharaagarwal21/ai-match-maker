@@ -1,0 +1,93 @@
+# TechTitans — Project Walkthrough ✅
+
+## Services Running
+
+| Service | Port | Status |
+|---------|------|--------|
+| Next.js Frontend | 3000 | ✅ Running |
+| Node.js Backend | 5000 | ✅ Health check passed |
+| Python AI Service | 8001 | ✅ Health check passed |
+| Hardhat Blockchain | 8545 | ✅ Smart contract deployed |
+| MySQL | 3306 | ✅ Schema applied |
+
+---
+
+## Screenshots
+
+### Landing Page
+![Landing Page](file:///C:/Users/agarw_e421go4/.gemini/antigravity/brain/c65adf33-93a7-410d-85e9-aa1a6377b878/home_page_full_1773024649917.png)
+
+### Registration Page
+![Registration Page](file:///C:/Users/agarw_e421go4/.gemini/antigravity/brain/c65adf33-93a7-410d-85e9-aa1a6377b878/register_page_full_1773024658488.png)
+
+---
+
+## Full Demo Run Order
+
+Each time you restart your machine, run services in this order:
+
+**Terminal 1 — Backend**
+```cmd
+cd c:\Foundathon\techtitans\backend
+node server.js
+```
+
+**Terminal 2 — AI Service**
+```cmd
+cd c:\Foundathon\techtitans\ai-service
+venv\Scripts\uvicorn main:app --port 8001 --reload
+```
+
+**Terminal 3 — Blockchain Node**
+```cmd
+cd c:\Foundathon\techtitans\blockchain
+npx hardhat node
+```
+
+**Terminal 4 — Deploy Contract** *(run once per node restart)*
+```cmd
+cd c:\Foundathon\techtitans\blockchain
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+**Terminal 5 — Frontend**
+```cmd
+cd c:\Foundathon\techtitans\frontend
+npm run dev
+```
+
+Open **http://localhost:3000** 🎉
+
+---
+
+## To Enable AI Translation (Optional)
+
+Get a free Gemini API key at [aistudio.google.com](https://aistudio.google.com), then set it in `ai-service/.env`:
+```
+GEMINI_API_KEY=your_key_here
+```
+Restart the AI service. Without this key, matchmaking still works (local embeddings), but live translation and facilitation use fallback messages.
+
+---
+
+## Features Implemented
+
+| Feature | Status |
+|---------|--------|
+| Landing page (animated hero, features) | ✅ |
+| Register / Login with JWT | ✅ |
+| Profile setup (domain, skills) | ✅ |
+| AI expert matchmaking (sentence-transformers) | ✅ |
+| Browse + join open rooms | ✅ |
+| Real-time WebSocket chat (Socket.io) | ✅ |
+| AI jargon translation per message | ✅ |
+| Translation toggle (show/hide) | ✅ |
+| Typing indicators | ✅ |
+| AI brainstorm facilitator (30s inactivity) | ✅ |
+| Manual facilitator trigger button | ✅ |
+| Smart contract: [CollaborationLog.sol](file:///c:/Foundathon/techtitans/blockchain/contracts/CollaborationLog.sol) | ✅ |
+| Blockchain IP logging endpoint | ✅ |
+| Blockchain proof viewer page | ✅ |
+| AI-generated session summary | ✅ |
+| SHA-256 content hash | ✅ |
+| Dashboard with room management | ✅ |

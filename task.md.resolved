@@ -1,0 +1,52 @@
+# AI Matchmaking Platform - TechTitans
+
+## Phase 1: Planning
+- [x] Understand requirements and define architecture
+- [x] Create implementation plan
+- [ ] Get user approval
+
+## Phase 2: Project Setup
+- [ ] Create project directory structure at c:\Foundathon
+- [ ] Initialize frontend (Next.js)
+- [ ] Initialize backend (Node.js + Express + Socket.io)
+- [ ] Initialize AI service (Python + LangChain)
+- [ ] Initialize blockchain service (Hardhat + Solidity)
+- [ ] Set up MySQL database schema
+- [ ] Set up environment files
+
+## Phase 3: Backend (Node.js)
+- [ ] Auth routes (register/login with JWT)
+- [ ] User profile routes (domain, skills)
+- [ ] Project/room routes
+- [ ] WebSocket server (Socket.io)
+- [ ] Message storage with translated messages
+- [ ] Matchmaking endpoint (calls AI service)
+- [ ] Blockchain integration endpoint
+
+## Phase 4: AI Service (Python)
+- [ ] FastAPI server setup
+- [ ] Translation agent (LLM-based jargon translation)
+- [ ] Facilitator agent (inactivity detection + prompts)
+- [ ] Expert matchmaking via embeddings (sentence-transformers)
+- [ ] Chat summary generator
+- [ ] LangChain integration
+
+## Phase 5: Blockchain Service
+- [ ] Solidity smart contract (contribution logging)
+- [ ] Hardhat config for Polygon Mumbai testnet
+- [ ] Deploy script
+- [ ] Node.js wrapper to interact with contract
+
+## Phase 6: Frontend (Next.js)
+- [ ] Landing page with animations
+- [ ] Auth pages (login/register)
+- [ ] Profile setup page
+- [ ] Matchmaking / explore page
+- [ ] Collaboration room (chat + translation panel)
+- [ ] Dashboard
+- [ ] Blockchain log viewer
+
+## Phase 7: Integration & Verification
+- [ ] End-to-end test flow
+- [ ] README with setup instructions
+- [ ] Walkthrough artifact

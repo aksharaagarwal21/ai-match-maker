@@ -1,0 +1,19 @@
+{
+  "name": "techtitans-blockchain",
+  "version": "1.0.0",
+  "description": "Smart contracts for TechTitans AI Matchmaking Platform",
+  "scripts": {
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:mumbai": "hardhat run scripts/deploy.js --network mumbai",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

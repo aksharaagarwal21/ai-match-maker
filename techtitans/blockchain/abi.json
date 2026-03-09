@@ -1,0 +1,138 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "projectId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "summaryHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "ipfsHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "contributors",
+        "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "ContributionLogged",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_projectId",
+        "type": "string"
+      }
+    ],
+    "name": "getContribution",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "summaryHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "ipfsHash",
+        "type": "string"
+      },
+      {
+        "internalType": "address[]",
+        "name": "contributors",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getTotalProjects",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_projectId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_summaryHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_ipfsHash",
+        "type": "string"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_contributors",
+        "type": "address[]"
+      }
+    ],
+    "name": "logContribution",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_projectId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_hash",
+        "type": "string"
+      }
+    ],
+    "name": "verifyContribution",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
